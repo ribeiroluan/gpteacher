@@ -21,9 +21,9 @@ class CreateQuizData:
         load_dotenv()
         openai.api_key = getenv("OPENAI_API_KEY")
 
-        system = f"You are an education specialist with a vast knowledge in various fields and specializes in creating questionnaires in the format of python lists"
+        system = f"You are an education specialist with a vast knowledge in various fields and specializes in creating questionnaires. You will create python lists"
         user = f"""
-            A teacher wants help with creating a questionaire for her students and you will help her based on four parameters: discipline (like math, geography, english or history), topic (like trigonometrics, geometry, literature), difficulty (easy, medium, hard) and number of questions (1 to 10).
+           A teacher needs help creating questions to assess her students learning. You will create questionnaires based on four parameters: discipline (like math, geography, english or history), topic (like trigonometrics, geometry, literature), difficulty (easy, medium, hard) and number of questions (1 to 10).
 
             Create questions assuming the following paramenters
             1. Discipline: {self.discipline}
@@ -43,14 +43,12 @@ class CreateQuizData:
             - Incorrect answer
             - Justification for the correct answer
 
-            Your output should mirror this structure:
+            Your output should mirror this exact structure. Do not include any further comments or explanation:
             [
                 ["Generated Question 1", "Correct Answer 1", "Incorrect Answer 1.1", "Incorrect Answer 1.2", "Incorrect Answer 1.3", "Justification for the correct answer 1"],
                 ["Generated Question 2", "Correct Answer 2", "Incorrect Answer 2.1", "Incorrect Answer 2.2", "Incorrect Answer 2.3", "Justification for the correct answer 2"],
                 ...
             ]
-
-            Only return the required list with no additional texts
             """
         
         response = openai.ChatCompletion.create(
@@ -69,16 +67,15 @@ class CreateQuizData:
                     "content": ""
                 }
             ],
-            temperature=1,
+            temperature=0.5,
             top_p=1,
             frequency_penalty=0,
-            presence_penalty=0
+            presence_penalty=0.0
         )
         return response.choices[0]["message"]["content"]
 
     def string_to_list(self, s) -> list:
         try:
-            print(ast.literal_eval(s))
             return ast.literal_eval(s)
         except (SyntaxError, ValueError) as e:
             st.error(f"Error: The provided input is not correctly formatted. {e}")
@@ -100,5 +97,5 @@ class CreateQuizData:
         print(final_questions_list)
         return final_questions_list
     
-quiz = CreateQuizData(discipline="math", topic="trigonometry", difficulty="easy", amount = 1)
-quiz.create()
+#quiz = CreateQuizData(discipline="math", topic="plane geometry", difficulty="medium", amount = 3)
+#quiz.create()
