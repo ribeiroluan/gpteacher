@@ -15,6 +15,9 @@ st.set_page_config(
 st.title(":brain: GPTeacher")
 st.write("Welcome to GPTeacher! This app allow you to test your knowledge on a variety of topics!")
     
+with st.sidebar:
+    st.header("I am a sidebar")
+
 with st.form("user_input"):
     DISCIPLINE = st.text_input("Enter the discpline you want to be tested on (e.g. math, geography, history)")
     TOPIC = st.text_input("Enter the topic within the discipline you want to be tested on (e.g. trigonometry, U.S geography, ancient history)")
