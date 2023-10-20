@@ -96,6 +96,3 @@ class CreateQuizData:
             final_questions_list.append(output)
         print(final_questions_list)
         return final_questions_list
-    
-#quiz = CreateQuizData(discipline="math", topic="plane geometry", difficulty="medium", amount = 3)
-#quiz.create()
