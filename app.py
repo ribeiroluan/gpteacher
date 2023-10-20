@@ -1,14 +1,10 @@
 import streamlit as st
 import time
-
-def create_quiz(discipline: str, topic: str, difficulty: str, amount:int) -> list:
-    time.sleep(5)
-    return("Generating quiz")
-
+from create_quiz import CreateQuizData
 
 st.set_page_config(
      page_title="GPTeacher",
-     page_icon=":male-teacher:",
+     page_icon=":brain:",
      layout="centered",
      initial_sidebar_state="expanded")
 
@@ -18,10 +14,10 @@ st.write("Welcome to GPTeacher! This app allow you to test your knowledge on a v
 with st.sidebar:
     st.header("I am a sidebar")
 
-with st.form("user_input"):
+with st.form(key="user_input"):
     DISCIPLINE = st.text_input("Enter the discpline you want to be tested on (e.g. math, geography, history)")
     TOPIC = st.text_input("Enter the topic within the discipline you want to be tested on (e.g. trigonometry, U.S geography, ancient history)")
-    AMOUNT = st.slider("Enter the number of questions you want to answer", min_value = 1, max_value = 10)
+    AMOUNT = st.slider("Enter the number of questions you want to answer", min_value = 3, max_value = 10)
     DIFFICULTY = st.radio(
         "Set the difficulty",
         options=["Easy", "Medium", "Hard"],
@@ -32,4 +28,15 @@ with st.form("user_input"):
 if submitted:
     
     with st.spinner("Crafting your quiz...🤓"):
-        st.write(create_quiz(discipline=DISCIPLINE, topic=TOPIC, difficulty=DIFFICULTY, amount = AMOUNT))
+        quiz_object = CreateQuizData(discipline=DISCIPLINE, topic=TOPIC, difficulty=DIFFICULTY, amount = AMOUNT)
+        quiz_data = CreateQuizData(discipline=DISCIPLINE, topic=TOPIC, difficulty=DIFFICULTY, amount = AMOUNT).create()
+        
+        ############ CONTINUE FROM HERE ############
+        with st.form(key="quiz_form"):
+            st.subheader("Quiz time: test your knowledge!", anchor=False)
+            for i, q in enumerate(quiz_data):
+                options = quiz_data[i][1]
+                response = st.radio(q[0], options)
+                user_choice_index = options.index(response)
+
+            results_submitted = st.form_submit_button(label='Unveil My Score!')
