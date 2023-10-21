@@ -28,20 +28,26 @@ with st.form(key="user_input"):
     submitted = st.form_submit_button("Generate my quiz!")
 
 if submitted or ('quiz_data_list' in st.session_state):
+    #Treating exceptions when the form is not fully filed
+    if not OPENAI_API_KEY:
+        st.info("Please provide your OpenAI API key to go ahead. If you don't have one, check out OpenAI's website [here](https://platform.openai.com/account/api-keys).")
+        st.stop()
+    if (not DISCIPLINE) or (not TOPIC) or (not AMOUNT) or (not DIFFICULTY):
+        st.info("Please fill out the whole form before procceding.")
+        st.stop()
+    
     with st.spinner("Thinking about the questions...🤓"):
         if submitted:
             quiz_object = CreateQuizData(discipline=DISCIPLINE, topic=TOPIC, difficulty=DIFFICULTY, amount=AMOUNT, api_key=OPENAI_API_KEY)
             quiz_data = quiz_object.create()
             st.session_state.quiz_data_list = quiz_data
 
-            if 'user_answers' not in st.session_state:
+            if 'user_answers' not in st.session_state or st.session_state.user_answers == []:
                 st.session_state.user_answers = [None for _ in st.session_state.quiz_data_list]
             if 'correct_answers' not in st.session_state:
                 st.session_state.correct_answers = []
             if 'randomized_options' not in st.session_state:
                 st.session_state.randomized_options = []
-            if 'justifications' not in st.session_state:
-                st.session_state.justifications = []
 
             for q in st.session_state.quiz_data_list:
                 st.session_state.randomized_options.append(q[1])
@@ -68,8 +74,12 @@ if submitted or ('quiz_data_list' in st.session_state):
                 else:
                     incorrect_count = len(st.session_state.quiz_data_list) - score
                 
-                    if incorrect_count == 1:
+                    if score == 0:
+                        st.warning(f"You got all questions wrong. I am sure you can do better. Let's review it:")
+
+                    elif len(st.session_state.quiz_data_list) > 1 and incorrect_count == 1:
                         st.warning(f"Almost perfect! You got 1 question wrong. Let's review it:")
+
                     else:
                         st.warning(f"Almost there! You got {incorrect_count} questions wrong. Let's review them:")
 
@@ -83,6 +93,11 @@ if submitted or ('quiz_data_list' in st.session_state):
                             st.error(f"Your answer: {ro[ua]}")
                             st.success(f"Correct answer: {ca}")
                         st.info(f"Explanation: {q[3]}")
-
-        st.subheader(":point_right: Want to get tested again? Click the Reset button below!")
-        st.link_button("Reset", "https://gpteacher.streamlit.app/")
+        
+        st.write(":point_right: Want to get tested again? Click the reset button below and fill out the form!")
+        if st.button("Reset"):
+            #Cleaning all session state variables so we can run the another questionnaire
+            st.session_state.quiz_data_list = []
+            st.session_state.user_answers = [None for _ in st.session_state.quiz_data_list]
+            st.session_state.correct_answers = []
+            st.session_state.randomized_options = []

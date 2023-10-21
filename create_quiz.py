@@ -45,29 +45,33 @@ class CreateQuizData:
                 ...
             ]
             """
-        
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages = [
-                {
-                    "role": "system",
-                    "content": system
-                },
-                {
-                    "role": "user",
-                    "content": user
-                },
-                {
-                    "role": "assistant",
-                    "content": ""
-                }
-            ],
-            temperature=0.5,
-            top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0.0
-        )
-        return response.choices[0]["message"]["content"]
+        try:
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages = [
+                    {
+                        "role": "system",
+                        "content": system
+                    },
+                    {
+                        "role": "user",
+                        "content": user
+                    },
+                    {
+                        "role": "assistant",
+                        "content": ""
+                    }
+                ],
+                temperature=0.5,
+                top_p=1,
+                frequency_penalty=0,
+                presence_penalty=0.0
+            )
+            return response.choices[0]["message"]["content"]
+        except:
+            st.error(f"The OpenAI key you provided is not valid.")
+            st.stop()
+
 
     def string_to_list(self, s) -> list:
         try:
