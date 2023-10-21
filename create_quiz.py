@@ -93,5 +93,5 @@ class CreateQuizData:
         for q in self.string_to_list(self.quiz_data_str()):
             output = self.get_randomized_options(q)
             final_questions_list.append(output)
-        print(final_questions_list)
+        #print(final_questions_list)
         return final_questions_list

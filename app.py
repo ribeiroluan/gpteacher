@@ -52,8 +52,10 @@ if submitted or ('quiz_data_list' in st.session_state):
             for q in st.session_state.quiz_data_list:
                 st.session_state.randomized_options.append(q[1])
                 st.session_state.correct_answers.append(q[2])
-            
-        with st.form(key="quiz_form"):
+        
+        placeholder = st.empty()
+
+        with placeholder.form(key="quiz_form"):
             st.subheader("Quiz time: test your knowledge!", anchor=False)
             for i, q in enumerate(st.session_state.quiz_data_list):
                 options = st.session_state.randomized_options[i]
@@ -94,10 +96,13 @@ if submitted or ('quiz_data_list' in st.session_state):
                             st.success(f"Correct answer: {ca}")
                         st.info(f"Explanation: {q[3]}")
         
-        st.write(":point_right: Want to get tested again? Click the reset button below and fill out the form!")
-        if st.button("Reset"):
-            #Cleaning all session state variables so we can run the another questionnaire
-            st.session_state.quiz_data_list = []
-            st.session_state.user_answers = [None for _ in st.session_state.quiz_data_list]
-            st.session_state.correct_answers = []
-            st.session_state.randomized_options = []
+        st.markdown("<h5 style='text-align: center; color: black;'>Want to get tested again? Click the reset button below and start over!</h5>", unsafe_allow_html=True)
+        col1, col2, col3, col4, col5 = st.columns(5)
+        with col3:
+            if st.button("Reset", type="primary"):
+                #Cleaning all variables so we can run the app again 
+                placeholder.empty()
+                st.session_state.quiz_data_list = []
+                st.session_state.user_answers = [None for _ in st.session_state.quiz_data_list]
+                st.session_state.correct_answers = []
+                st.session_state.randomized_options = []
