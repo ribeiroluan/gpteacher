@@ -2,7 +2,6 @@ import streamlit as st
 import pyautogui 
 from create_quiz import CreateQuizData
 
-
 st.set_page_config(
      page_title="GPTeacher",
      page_icon=":brain:",
@@ -14,22 +13,20 @@ if 'first_time' not in st.session_state:
     st.session_state.first_time = False
 
 st.title(":brain: GPTeacher")
-st.write("Welcome to GPTeacher! This app allow you to test your knowledge on a variety of topics!")
+st.write("Welcome to GPTeacher! This app allows you to test your knowledge on a variety of topics. Are you ready?")
     
 with st.form(key="user_input"):
     DISCIPLINE = st.text_input("Enter the discpline you want to be tested on (e.g. math, geography, history)")
     TOPIC = st.text_input("Enter the topic within the discipline you want to be tested on (e.g. trigonometry, U.S geography, ancient history)")
     AMOUNT = st.slider("Enter the number of questions you want to answer", min_value = 1, max_value = 10)
-    DIFFICULTY = st.radio(
-        label="Set the difficulty",
-        options=["Easy", "Medium", "Hard"],
-    )
+    DIFFICULTY = st.radio(label="Set the difficulty level", options=["Easy", "Medium", "Hard"])
+    OPENAI_API_KEY = st.text_input("Lastly, an OpenAI API key is necessary to generate the questions", type="password")
     submitted = st.form_submit_button("Generate my quiz!")
 
 if submitted or ('quiz_data_list' in st.session_state):
     with st.spinner("Thinking about the questions...🤓"):
         if submitted:
-            quiz_object = CreateQuizData(discipline=DISCIPLINE, topic=TOPIC, difficulty=DIFFICULTY, amount = AMOUNT)
+            quiz_object = CreateQuizData(discipline=DISCIPLINE, topic=TOPIC, difficulty=DIFFICULTY, amount=AMOUNT, api_key=OPENAI_API_KEY)
             quiz_data = quiz_object.create()
             st.session_state.quiz_data_list = quiz_data
 

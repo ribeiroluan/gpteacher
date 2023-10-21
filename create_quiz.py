@@ -1,6 +1,3 @@
-from os import getenv
-from dotenv import load_dotenv
-
 import openai
 import streamlit as st
 
@@ -9,17 +6,15 @@ import random
 
 class CreateQuizData:
 
-    def __init__(self, discipline: str, topic: str, difficulty: str, amount:int) -> None:
+    def __init__(self, discipline: str, topic: str, difficulty: str, amount:int, api_key:str) -> None:
         self.discipline = discipline
         self.topic = topic
         self.difficulty = difficulty
         self.amount = amount
+        self.api_key = api_key
 
     def quiz_data_str(self) -> str:
-
-        #Getting API key
-        load_dotenv()
-        openai.api_key = getenv("OPENAI_API_KEY")
+        openai.api_key = self.api_key
 
         system = f"You are an education specialist with a vast knowledge in various fields and specializes in creating questionnaires. You will create python lists"
         user = f"""
