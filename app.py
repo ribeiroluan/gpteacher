@@ -15,6 +15,11 @@ if 'first_time' not in st.session_state:
 st.title(":brain: GPTeacher")
 st.write("Welcome to GPTeacher! This app allows you to test your knowledge on a variety of topics. Are you ready?")
     
+with st.expander("Video tutorial"):
+    video_file = open('GPTeacher_video.mp4', 'rb')
+    video_bytes = video_file.read()
+    st.video(video_bytes)
+
 with st.form(key="user_input"):
     DISCIPLINE = st.text_input("Enter the discpline you want to be tested on (e.g. math, geography, history)")
     TOPIC = st.text_input("Enter the topic within the discipline you want to be tested on (e.g. trigonometry, U.S geography, ancient history)")
