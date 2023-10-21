@@ -1,5 +1,4 @@
 import streamlit as st
-import pyautogui 
 from create_quiz import CreateQuizData
 
 st.set_page_config(
