@@ -4,7 +4,7 @@ from create_quiz import CreateQuizData
 
 st.set_page_config(
      page_title="GPTeacher",
-     page_icon=":brain:",
+     page_icon="🧠",
      layout="centered",
      initial_sidebar_state="expanded")
 
@@ -12,10 +12,10 @@ if 'first_time' not in st.session_state:
     st.toast(body="Welcome! Ready to crush some quizzes?", icon="😎")
     st.session_state.first_time = False
 
-st.title(":brain: GPTeacher")
+st.title("🧠 GPTeacher")
 st.write("Welcome to GPTeacher! This app allows you to test your knowledge on a variety of topics. Are you ready?")
     
-with st.expander("Video tutorial"):
+with st.expander("💡 Video tutorial"):
     video_file = open('GPTeacher_video.mp4', 'rb')
     video_bytes = video_file.read()
     st.video(video_bytes)
