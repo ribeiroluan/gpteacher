@@ -25,7 +25,7 @@ with st.form(key="user_input"):
     TOPIC = st.text_input("Enter the topic within the discipline you want to be tested on (e.g. trigonometry, U.S geography, ancient history)")
     AMOUNT = st.slider("Enter the number of questions you want to answer", min_value = 1, max_value = 10)
     DIFFICULTY = st.radio(label="Set the difficulty level", options=["Easy", "Medium", "Hard"])
-    OPENAI_API_KEY = st.text_input("Lastly, an OpenAI API key is necessary to generate the questions", type="password")
+    OPENAI_API_KEY = st.text_input("Lastly, an OpenAI API key is necessary to generate the questions", type="password", placeholder="sk-XXXXX")
     submitted = st.form_submit_button("Generate my quiz!")
 
 if submitted or ('quiz_data_list' in st.session_state):
@@ -86,5 +86,4 @@ if submitted or ('quiz_data_list' in st.session_state):
                         st.info(f"Explanation: {q[3]}")
 
         st.subheader(":point_right: Want to get tested again? Click the Reset button below!")
-        if st.button("Reset"):
-            pyautogui.hotkey("ctrl","R")
+        st.link_button("Reset", "https://gpteacher.streamlit.app/")
