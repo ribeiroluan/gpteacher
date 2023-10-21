@@ -20,8 +20,8 @@ with st.expander("💡 Video tutorial"):
     st.video(video_bytes)
 
 with st.form(key="user_input"):
-    DISCIPLINE = st.text_input("Enter the discpline you want to be tested on (e.g. math, geography, history)")
-    TOPIC = st.text_input("Enter the topic within the discipline you want to be tested on (e.g. trigonometry, U.S geography, ancient history)")
+    DISCIPLINE = st.text_input("Enter the discpline you want to be tested on", placeholder="e.g. math, geography, history")
+    TOPIC = st.text_input("Enter the topic within the discipline you want to be tested on", placeholder="e.g. trigonometry, U.S rivers, french revolution")
     AMOUNT = st.slider("Enter the number of questions you want to answer", min_value = 1, max_value = 10)
     DIFFICULTY = st.radio(label="Set the difficulty level", options=["Easy", "Medium", "Hard"])
     OPENAI_API_KEY = st.text_input("Lastly, an OpenAI API key is necessary to generate the questions", type="password", placeholder="sk-XXXXX")
