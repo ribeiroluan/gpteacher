@@ -15,7 +15,7 @@ st.title("🧠 GPTeacher")
 st.write("Welcome to GPTeacher! This app allows you to test your knowledge on a variety of topics. Are you ready?")
     
 with st.expander("💡 Video tutorial"):
-    video_file = open('GPTeacher_video.mp4', 'rb')
+    video_file = open('resources/GPTeacher_video.mp4', 'rb')
     video_bytes = video_file.read()
     st.video(video_bytes)
 
